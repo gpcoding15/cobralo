@@ -58,6 +58,28 @@ describe("GET /clients", () => {
   });
 });
 
+describe("GET /clients/:id", () => {
+  test("should return HTTP 200 and the client", async () => {
+    const expectedStatus = 200;
+    const expectedClient = { id: 1, name: "Juan Perez", email: "juan@email.com" };
+
+    const response = await request(app).get("/clients/1");
+
+    expect(response.status).toBe(expectedStatus);
+    expect(response.body).toEqual(expectedClient);
+  });
+
+  test("should return HTTP 404 when the client does not exist", async () => {
+    const expectedStatus = 404;
+    const expectedBody = { error: "Client not found" };
+
+    const response = await request(app).get("/clients/999");
+
+    expect(response.status).toBe(expectedStatus);
+    expect(response.body).toEqual(expectedBody);
+  });
+});
+
 describe("POST /clients", () => {
   const newClient = {
     name: "Pedro Lopez",

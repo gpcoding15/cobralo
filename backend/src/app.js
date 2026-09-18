@@ -25,6 +25,16 @@ app.get("/clients", (request, response) => {
     response.json(clients)
 });
 
+app.get("/clients/:id", (request, response) => {
+    const clientId = Number(request.params.id);
+
+    const client = clients.find((c) => c.id === clientId)
+
+    if(!client) return response.status(404).json({"error": "Client not found"});
+
+    response.status(200).json(client);
+});
+
 app.post("/clients", (request, response) => {
     const new_client = {
         id: clients.length + 1,
